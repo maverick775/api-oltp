@@ -1,0 +1,7 @@
+iniconfig==2.0.0
+packaging==23.1
+peewee==3.16.2
+pluggy==1.2.0
+pytest==7.4.0
+django
+djangorestframework
