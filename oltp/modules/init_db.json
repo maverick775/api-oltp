@@ -1,0 +1,56 @@
+[
+    {
+        "model": "api.holder",
+        "pk": 1,
+        "fields": {
+            "name": "Alonso Reyes",
+            "email": "alonso.reyes@gmail.com",
+            "phone_number": "000000000"
+        }
+    },
+    {
+        "model": "api.holder",
+        "pk": 2,
+        "fields": {
+            "name": "Pake Perez",
+            "email": "pake.perez@gmail.com",
+            "phone_number": "000000001"
+        }
+    },
+    {
+        "model": "api.holder",
+        "pk": 3,
+        "fields": {
+            "name": "Jasmin Sanchez",
+            "email": "jasmin.sanchez@gmail.com",
+            "phone_number": "000000002"
+        }
+    },
+    {
+        "model": "api.holder",
+        "pk": 4,
+        "fields": {
+            "name": "Erick Martinez",
+            "email": "erick.martinez@gmail.com",
+            "phone_number": "000000003"
+        }
+    },
+    {
+        "model": "api.holder",
+        "pk": 5,
+        "fields": {
+            "name": "Mike Castañeda",
+            "email": "mike.castañeda@gmail.com",
+            "phone_number": "000000004"
+        }
+    },
+    {
+        "model": "api.account",
+        "pk": 1,
+        "fields": {
+            "name": "Mike Castañeda",
+            "email": "mike.castañeda@gmail.com",
+            "phone_number": "000000004"
+        }
+    },
+]
