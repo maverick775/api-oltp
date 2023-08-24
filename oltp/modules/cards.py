@@ -1,4 +1,4 @@
-from models import Card
+from oltp.api import Card
 from peewee import *
 import random
 from .movements import save_movement
@@ -23,14 +23,14 @@ def assign_new_card(account_id, holder_name, security_code='1111'):
     def generate_card_number():
         return random.randint(10**13, 10**14 - 1)
     try:
-        card = Card.create(account=account_id, card_number=generate_card_number(), holder_name=holder_name, security_code=security_code)
+        card = Card.objects.create(account=account_id, card_number=generate_card_number(), holder_name=holder_name, security_code=security_code)
         return card
     except Card.AccountDoesNotExist:
         raise ValueError("Account does not exist.")
 
 def get_card_by_number(card_number):
     try:
-        card = Card.get(Card.card_number == card_number)
+        card = Card.objects.get(Card.objects.card_number == card_number)
         print(f'Card: {card.card_number} Holder:{card.holder_name} Account ID: {card.account.id}')
         return card
     except Card.DoesNotExist:
@@ -39,7 +39,7 @@ def get_card_by_number(card_number):
 
 def make_purchase(card_number, amount, security_code):  #gasto
     try:
-        card = Card.get(Card.card_number == card_number)
+        card = Card.objects.get(Card.objects.card_number == card_number)
         if card.security_code != security_code:
             print("Invalid NIP")
             return False
@@ -56,11 +56,11 @@ def make_purchase(card_number, amount, security_code):  #gasto
     
 def deposit(card_number,amount):
     try:
-        card = Card.get(Card.card_number == card_number)
+        card = Card.objects.get(Card.objects.card_number == card_number)
         if card.account.balance >= amount:
             card.account.balance += amount
             card.account.save()
-            save_movement(amount, 'Deposito', Card.card_number)
+            save_movement(amount, 'Deposito', Card.objects.card_number)
             print("Payment succesful")
             return True
         else:
@@ -72,7 +72,7 @@ def deposit(card_number,amount):
 
 def update_nip(card_number, new_nip):
     try:
-        card = Card.get(Card.card_number == card_number)
+        card = Card.objects.get(Card.objects.card_number == card_number)
         card.security_code = new_nip
         print("NIP updated")
         card.save()
@@ -83,7 +83,7 @@ def update_nip(card_number, new_nip):
 
 def cancel_card(card_id):
     try:
-        card = Card.get_by_id(card_id)
+        card = Card.objects.get_by_id(card_id)
         card.delete_instance()
         print(f'Card {card_id} has been deleted')
         return f'Card {card_id} has been deleted'

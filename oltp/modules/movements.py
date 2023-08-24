@@ -1,4 +1,4 @@
-from models import Card, Movements
+from oltp.api import Card, Movement, Account
 from peewee import *
 
 #General Actions
@@ -7,25 +7,26 @@ from peewee import *
 
 def save_movement(amount, movementType, account): #se puede quitar o no usar
     card = Card.get(Card.card_number==account)
-    movement = Movements(amount = amount, movementType=movementType, account = account)
+    movement = Movement(amount = amount, movementType=movementType, account = account)
     movement.save()
     print(f'Movement from Account: {movement} Amount :{amount} Movement Type: {movementType}')
     pass
 
 def create_movement(amount, movementType, account, date):
     try:
-        movement = Movements(amount = amount, movementType=movementType, account = account, date = date)
+        movement = Movement(amount = amount, movementType=movementType, account = account, date = date)
         movement.save()
         return movement
-    except:
+    except Exception as e:
+        print(e)
         return "Something went wrong"
 
     
 def get_movement(**kwargs):
     try:
-        movement = Movements.get(**kwargs)
+        movement = Movement.get(**kwargs)
         return movement
-    except Movements.DoesNotExist:
+    except Movement.DoesNotExist:
         print("Movement does not exists in database")
         return None
     
@@ -35,12 +36,12 @@ def update_movement(account, date, new_values):
         return None
 
     try:
-        query = Movements.update(new_values).where((account == account) & (date == date))
+        query = Movement.update(new_values).where((account == account) & (date == date))
         query.execute()
 
         return 'Movement updated'
 
-    except Movements.DoesNotExist:
+    except Movement.DoesNotExist:
         print("Movement does not exists in database")
         return None
 
@@ -52,9 +53,9 @@ def update_movement(account, date, new_values):
 
 def delete_movement(account, date):
     try:
-        mov = Movements.get((account == account) & (date == date))
+        mov = Movement.get((account == account) & (date == date))
         mov.delete_instance()
         return f'Movement {mov.id} deleted'
-    except Movements.DoesNotExist:
+    except Movement.DoesNotExist:
         print("Movement does not exists in database")
         return None

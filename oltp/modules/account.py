@@ -1,26 +1,26 @@
-from models import Account
+from oltp.api import Account
 from peewee import *
 
 # Create account
 # test_user = get_user(email='alonso.reyes@gmail.com')
-# print(create_account(user=test_user, balance=63000))
+# print(create_account(holder=test_user, balance=63000))
 # print(create_user("Alonso Reyes", "alonssoreyes@gmail.com", "3312233456"))
 
 # Get account
-# print(get_account(user=test_user))
+# print(get_account(holder=test_user))
 
 # Update account
-# print(update_acount(user=test_user, new_values={'balance': 5000}))
-# print(get_account(user=test_user))
+# print(update_acount(holder=test_user, new_values={'balance': 5000}))
+# print(get_account(holder=test_user))
 
 # Delete account
-# print(delete_account(user=test_user))
-# print(get_account(user=test_user))
+# print(delete_account(holder=test_user))
+# print(get_account(holder=test_user))
 
 
-def create_account(user, balance):
+def create_account(holder, balance):
     try:
-        acc = Account(user=user, balance=balance)
+        acc = Account(holder=holder, balance=balance)
         acc.save()
         return acc
     except IntegrityError:
@@ -30,20 +30,20 @@ def create_account(user, balance):
 
 def get_account(**kwargs):
     try:
-        acc = Account.get(**kwargs)
+        acc = Account.objects.get(**kwargs)
         return acc
     except Account.DoesNotExist:
         print("Account does not exists in database")
         return None
 
 
-def update_acount(user, new_values):
+def update_acount(holder, new_values):
     if not new_values:
         print("Invalid parameters")
         return None
 
     try:
-        query = Account.update(new_values).where(user == user)
+        query = Account.objects.update(new_values).where(holder == holder)
         query.execute()
 
         return 'Account updated'
@@ -58,11 +58,11 @@ def update_acount(user, new_values):
         return None
 
 
-def delete_account(user):
+def delete_account(holder):
     try:
-        acc = Account.get(user=user)
+        acc = Account.objects.get(holder=holder)
         acc.delete_instance()
-        return 'Account for ' + user.get_email() + ' deleted'
+        return 'Account for ' + holder.get_email() + ' deleted'
     except Account.DoesNotExist:
         print("User does not exists in database")
         return None

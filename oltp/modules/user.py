@@ -1,6 +1,5 @@
-from models import User
+from api import User
 from peewee import *
-
 
 # Create User
 # print(create_user("Alonso Reyes", "alonssoreyes@gmail.com", "3312233456"))
@@ -15,7 +14,6 @@ from peewee import *
 # Delete User
 # print(delete_user(email="alonso.r@gmail.com"))
 # print(get_user(email="alonso.r@gmail.com"))
-
 
 def create_user(name, email, phone):
     try:
